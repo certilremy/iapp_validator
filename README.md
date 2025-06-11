@@ -31,12 +31,12 @@ To verify Google Play purchases, you need a **Google Play Service Account JSON k
 require 'iapp_validator'
 
 validator = ReceiptHelper::GooglePlayValidator.new
-is_valid = validator.verify_purchase("com.package.name", "your.product.id", "purchase_token")
+result = validator.verify_purchase("com.package.name", "your.product.id", "purchase_token")
 
-if is_valid
-  puts "Purchase is valid!"
+if result[:success]
+  puts "Purchase is valid"
 else
-  puts "Purchase is invalid or verification failed."
+  puts "Purchase failed: #{result[:error]}"
 end
 ```
 

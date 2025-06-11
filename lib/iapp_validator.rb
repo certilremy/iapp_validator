@@ -22,13 +22,18 @@ module IappValidator
     end
 
     def verify_purchase(package_name, product_id, token)
-      begin
-        purchase = @service.get_purchase_product(package_name, product_id, token)
-        purchase.purchase_state == 0 # 0 = valid purchase
-      rescue Google::Apis::Error => e
-        puts "Google Play verification error: #{e.message}"
-        false
-      end
-    end
+  begin
+    purchase = @service.get_purchase_product(package_name, product_id, token)
+    {
+      success: purchase.purchase_state == 0,
+      error: nil
+    }
+  rescue Google::Apis::Error => e
+    {
+      success: false,
+      error: e.message
+    }
+  end
+end
   end
 end
