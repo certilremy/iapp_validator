@@ -1,39 +1,69 @@
 # IappValidator
 
-TODO: Delete this and the text below, and describe your gem
+`IappValidator` is a Ruby gem that facilitates purchase verification for Google Play. It leverages the Google Play Developer API to confirm whether a purchase is valid or not.
 
-Welcome to your new gem! In this directory, you'll find the files you need to be able to package up your Ruby library into a gem. Put your Ruby code in the file `lib/iapp_validator`. To experiment with that code, run `bin/console` for an interactive prompt.
+## 📦 Installation
 
-## Installation
+Add the gem to your application's `Gemfile`:
 
-TODO: Replace `UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG` with your gem name right after releasing it to RubyGems.org. Please do not do it earlier due to security reasons. Alternatively, replace this section with instructions to install your gem from git if you don't plan to release to RubyGems.org.
+```ruby
+gem 'iapp_validator'
+```
 
-Install the gem and add to the application's Gemfile by executing:
+Then run:
 
-    $ bundle add UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+```bash
+bundle install
+```
 
-If bundler is not being used to manage dependencies, install the gem by executing:
+## 🔐 Configuration
 
-    $ gem install UPDATE_WITH_YOUR_GEM_NAME_IMMEDIATELY_AFTER_RELEASE_TO_RUBYGEMS_ORG
+To verify Google Play purchases, you need a **Google Play Service Account JSON key**.
 
-## Usage
+1. Go to [Google Cloud Console](https://console.cloud.google.com).
+2. Create a Service Account and grant it "Android Publisher" permissions.
+3. Download the JSON key file.
+4. Place it in your app (e.g., `config/credentials/google_play_service_account.json`).
 
-TODO: Write usage instructions here
+## 🚀 Usage
 
-## Development
+```ruby
+require 'iapp_validator'
 
-After checking out the repo, run `bin/setup` to install dependencies. You can also run `bin/console` for an interactive prompt that will allow you to experiment.
+validator = ReceiptHelper::GooglePlayValidator.new
+is_valid = validator.verify_purchase("com.package.name", "your.product.id", "purchase_token")
 
-To install this gem onto your local machine, run `bundle exec rake install`. To release a new version, update the version number in `version.rb`, and then run `bundle exec rake release`, which will create a git tag for the version, push git commits and the created tag, and push the `.gem` file to [rubygems.org](https://rubygems.org).
+if is_valid
+  puts "Purchase is valid!"
+else
+  puts "Purchase is invalid or verification failed."
+end
+```
 
-## Contributing
+### ✅ `verify_purchase(package_name, product_id, token)` Parameters
 
-Bug reports and pull requests are welcome on GitHub at https://github.com/[USERNAME]/iapp_validator. This project is intended to be a safe, welcoming space for collaboration, and contributors are expected to adhere to the [code of conduct](https://github.com/[USERNAME]/iapp_validator/blob/main/CODE_OF_CONDUCT.md).
+- `package_name`: The package name of your app on Google Play (e.g., `com.katkatgames.kanbiztoupatou`)
+- `product_id`: The ID of the purchased product (e.g., `coins_100`)
+- `token`: The purchase token returned from the Google Play API.
 
-## License
+## 🛠 Development
 
-The gem is available as open source under the terms of the [MIT License](https://opensource.org/licenses/MIT).
+To install the gem locally:
 
-## Code of Conduct
+```bash
+bundle exec rake install
+```
 
-Everyone interacting in the IappValidator project's codebases, issue trackers, chat rooms and mailing lists is expected to follow the [code of conduct](https://github.com/[USERNAME]/iapp_validator/blob/main/CODE_OF_CONDUCT.md).
+To open an interactive console:
+
+```bash
+bin/console
+```
+
+## 🤝 Contributing
+
+Pull requests, bug reports, and suggestions are welcome! Please follow the [Code of Conduct](https://github.com/certilremy/iapp_validator/blob/main/CODE_OF_CONDUCT.md).
+
+## 📄 License
+
+This gem is licensed under the [MIT License](https://opensource.org/licenses/MIT).
