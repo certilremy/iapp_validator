@@ -19,12 +19,12 @@ Gem::Specification.new do |spec|
   spec.metadata["changelog_uri"] = "#{spec.homepage}/blob/main/CHANGELOG.md"
 
   gemspec = File.basename(__FILE__)
-  spec.files = IO.popen(%w[git ls-files -z], chdir: __dir__, err: IO::NULL) do |ls|
-    ls.readlines("\x0", chomp: true).reject do |f|
-      (f == gemspec) ||
-        f.start_with?(*%w[bin/ test/ spec/ features/ .git appveyor Gemfile])
-    end
+  spec.files = Dir.chdir(File.expand_path(__dir__)) do
+  `git ls-files -z`.split("\x0").reject do |f|
+    f.match(/\.gem$/) || f.match(%r{^(bin|test|spec|features|\.git|pkg)/})
   end
+  end
+
 
   spec.bindir = "exe"
   spec.executables = spec.files.grep(%r{\Aexe/}) { |f| File.basename(f) }
