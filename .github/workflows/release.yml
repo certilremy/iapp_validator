@@ -1,0 +1,31 @@
+name: Release Gem
+
+on:
+  release:
+    types: [published]
+
+jobs:
+  build-and-publish:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: '3.1'
+
+      - name: Install bundler
+        run: gem install bundler
+
+      - name: Build gem
+        run: |
+          bundle install
+          gem build iapp_validator.gemspec
+
+      - name: Push to RubyGems
+        run: gem push iapp_validator-*.gem
+        env:
+          RUBYGEMS_API_KEY: ${{ secrets.RUBYGEMS_API_KEY }}
