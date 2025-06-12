@@ -1,4 +1,5 @@
 # IappValidator
+[![Gem Version](https://badge.fury.io/rb/iapp_validator.svg)](https://badge.fury.io/rb/iapp_validator)
 
 `IappValidator` is a Ruby gem that facilitates purchase verification for Google Play. It leverages the Google Play Developer API to confirm whether a purchase is valid or not.
 
